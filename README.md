@@ -21,6 +21,10 @@
 - `email`: duc@gmail.com
 - `password`: 123123
 
+> http://localhost:8080/api/v1/user
+
+- `Bearer token`
+
 
 # Frontend  
 - redux-persist

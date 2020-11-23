@@ -75,5 +75,4 @@ module.exports = {
     validPassword,
     auth,
     authSchema,
-    signAccessToken
 }

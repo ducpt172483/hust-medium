@@ -12,6 +12,7 @@ const port = process.env.PORT || 8080;
 const db = require('./config/db');
 db.connect();
 const route = require('./routes');
+require('./config/passport');
 
 // HTTP logger
 app.use(morgan('dev'));

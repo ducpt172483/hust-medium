@@ -1,21 +1,24 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const mongoose = require('mongoose');
-const User = mongoose.model('User');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
+var mongoose = require('mongoose');
+var User = mongoose.model('User');
+const createError = require('http-errors');
 
-passport.use(new LocalStrategy(
-    function (email, password, done) {
+passport.use(new LocalStrategy({
+        usernameField: 'email',
+        passwordField: 'password',
+        session: false
+    },
+    (email, password, done) => {
         User.findOne({
             email
-        }, function (err, user) {
+        }, async (err, user) => {
+            const isValid = await user?.validPassword(password);
             if (err) {
                 return done(err);
             }
-            if (!user) {
-                return done(null, false);
-            }
-            if (!user.verifyPassword(password)) {
-                return done(null, false);
+            if (!user || !isValid) {
+                return done(null, false, createError.BadRequest('Invalid username/password'));
             }
             return done(null, user);
         });
