@@ -3,6 +3,7 @@ const jwtExpress = require('express-jwt');
 const Joi = require('joi');
 const saltRounds = 10;
 const jwt = require('jsonwebtoken');
+const createError = require('http-errors');
 
 const hashPassword = async (password) => {
     try {

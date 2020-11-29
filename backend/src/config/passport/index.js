@@ -1,7 +1,6 @@
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
+const User = require('../../app/models/User');
 const createError = require('http-errors');
 
 passport.use(new LocalStrategy({

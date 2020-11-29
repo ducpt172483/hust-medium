@@ -46,10 +46,10 @@ app.use(function (req, res, next) {
 });
 
 app.use((err, req, res, next) => {
-    res.status(err.status || 500);
+    res.status(err.status || 404);
     res.send({
         error: {
-            status: err.status || 500,
+            status: err.status || 404,
             message: err.message,
         }
     })

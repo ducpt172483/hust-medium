@@ -14,21 +14,18 @@ class AuthController {
                 if (err) {
                     return next(err);
                 }
-
+                
                 if (user) {
-                    user.token = user.generateJWT();
                     return res.json({
-                        user: user.toAuthJSON(user.token)
+                        user: user.toAuthJSON()
                     });
-                } else {
-                    return res.status(422).json(info);
-                }
+                } 
+                
+                next(info);
+                
             })(req, res, next);
         } catch (error) {
-            // if (error.isJoi === true) {
-            //     return next(createError.BadRequest('Invalid username/password'));
-            // }
-            return next(error);
+            return createError.Unauthorized();
         }
     }
 
@@ -37,27 +34,18 @@ class AuthController {
         try {
             const result = await utils.authSchema.validateAsync(req.body);
 
-            const user = await User.findOne({
-                email: result.email
-            });
-
-            if (user) {
-                throw createError.Conflict('User already exists');
-            }
-
             result.password = await utils.hashPassword(result.password);
 
             let newUser = await User.create(result);
             await newUser.save();
 
-            newUser.token = newUser.generateJWT();
             return res.json({
-                user: newUser.toAuthJSON(newUser.token)
+                user: newUser.toAuthJSON()
             });
 
 
         } catch (error) {
-            if (error.isJoi === true) error.status = 422;
+            if (error.isJoi === true) return createError.UnprocessableEntity();
             next(error);
         }
     }

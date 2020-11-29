@@ -1,6 +1,6 @@
 const authRouter = require('./api/auth.api');
-// const siteRouter = require('./api/site.api');
 const userRouter = require('./api/user.api');
+// const siteRouter = require('./api/site.api');
 
 function route(app) {
 
